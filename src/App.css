@@ -1,62 +1,241 @@
 body {
+  --bg: #f6f7fb;
+  --text: #111827;
+  --muted-text: #6b7280;
+  --card-bg: #ffffff;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --chip-bg: #f3f4f6;
+  --chip-text: #374151;
+  --control-h: 36px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f4f7f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background-color: var(--bg);
   margin: 0;
+  min-height: 100vh;
   user-select: none;
 }
 
 .app {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .todo-container {
-  background: #ffffff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  background: var(--card-bg);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 640px;
+  margin: 24px auto;
 }
 
 h1 {
-  color: #333;
+  color: var(--text);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: saturate(160%) blur(8px);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.app-footer {
+  margin: 24px 0 32px;
+  color: var(--muted-text);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--danger) 6%, var(--card-bg));
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.alert.error {
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--border));
+}
+
+.alert .alert-close {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.alert .alert-close:hover {
+  background: color-mix(in srgb, var(--text) 4%, var(--card-bg));
 }
 
 .input-container {
   display: flex;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .input-container input {
   flex-grow: 1;
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 5px 0 0 5px;
+  padding: 0 12px;
+  height: var(--control-h);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
   font-size: 16px;
 }
 
 .input-container input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--primary);
 }
 
 .input-container button {
-  padding: 10px 20px;
+  padding: 0 14px;
+  height: var(--control-h);
   border: none;
-  background-color: #007bff;
+  background-color: var(--primary);
   color: white;
-  border-radius: 0 5px 5px 0;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.05s;
 }
 
 .input-container button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover);
+}
+
+.input-container button:active {
+  transform: translateY(1px);
+}
+
+/* New controls row, filters, sort */
+.controls-row {
+  display: flex;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+
+.filter-group {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+  color: var(--primary);
+}
+
+.sort-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priority-select,
+.due-input,
+.edit-input,
+.sort-group select {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0 12px;
+  height: var(--control-h);
+  font-size: 14px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+/* Specific sizing for controls in the add row */
+.input-container .priority-select { min-width: 120px; }
+.input-container .due-input { width: 220px; max-width: 100%; }
+
+@media (max-width: 640px) {
+  .input-container { gap: 8px; }
+  .input-container input { flex: 1 1 100%; }
+  .input-container .priority-select { flex: 0 1 48%; min-width: 0; }
+  .input-container .due-input { flex: 0 1 48%; width: auto; }
+  .input-container button { flex: 1 1 100%; }
+
+  /* Stack todo list item content neatly on small screens */
+  .todo-list li {
+    grid-template-columns: 1fr auto;
+    row-gap: 8px;
+  }
+  .todo-list li .todo-meta {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .todo-list li .actions {
+    justify-self: end;
+  }
+  .todo-container { padding: 16px; margin: 16px auto; }
+  h1 { font-size: 20px; }
+  .theme-switcher { width: 40px; height: 40px; }
+  /* Allow two-line titles on small screens for better readability */
+  .todo-list li span { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+  /* Bigger tap targets */
+  .actions button, .filter-btn { padding: 10px 12px; }
+}
+
+@media (max-width: 480px) {
+  .input-container .priority-select { flex: 1 1 100%; }
+  .input-container .due-input { flex: 1 1 100%; }
+  .controls-row { justify-content: stretch; }
+}
+
+@media (min-width: 1024px) {
+  .todo-container { max-width: 768px; }
+  .todo-list li { column-gap: 16px; padding: 14px 18px; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .todo-list li:hover { transform: none; box-shadow: none; }
 }
 
 .todo-list {
@@ -66,13 +245,18 @@ h1 {
 }
 
 .todo-list li {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  padding: 15px;
-  background: #f9f9f9;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s;
+  column-gap: 12px;
+  row-gap: 6px;
+  padding: 12px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.15s ease, transform 0.15s ease;
+  animation: fadeInUp 180ms ease-out both;
 }
 
 .todo-list li:last-child {
@@ -81,76 +265,169 @@ h1 {
 
 .todo-list li span {
   cursor: pointer;
-  flex-grow: 1;
   text-align: left;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .todo-list li.completed span {
   text-decoration: line-through;
-  color: #aaa;
+  color: var(--muted-text);
 }
 
 .todo-list li button {
-  background: #dc3545;
+  background: var(--danger);
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .todo-list li button:hover {
-  background: #c82333;
+  background: var(--danger-hover);
 }
 
+.todo-list li:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.todo-list li.removing {
+  animation: fadeOutShrink 200ms ease-out both;
+}
+
+.todo-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 0;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  text-transform: capitalize;
+}
+
+.badge-priority.high { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+.badge-priority.medium { background: #fef9c3; color: #92400e; border-color: #fde68a; }
+.badge-priority.low { background: #dcfce7; color: #065f46; border-color: #bbf7d0; }
+
+.due-chip {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  transition: background-color 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.actions button:hover {
+  background: color-mix(in srgb, var(--text) 3%, var(--card-bg));
+}
+
+.actions button:active {
+  transform: translateY(1px);
+}
+
+.actions button:focus-visible,
+.input-container input:focus-visible,
+.priority-select:focus-visible,
+.due-input:focus-visible,
+.sort-group select:focus-visible,
+.filter-btn:focus-visible,
+.theme-switcher:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--primary) 60%, transparent);
+  outline-offset: 2px;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutShrink {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.98); }
+}
 
 /* ================================== */
 /* DARK MODE STYLES          */
 /* ================================== */
 
 /* This targets our main div when it has BOTH .app and .dark classes */
-.app.dark body {
-  background-color: #121212; /* A dark background for the whole page */
+body.dark {
+  --bg: #0b1220;
+  --text: #e5e7eb;
+  --muted-text: #9ca3af;
+  --card-bg: #0f172a;
+  --border: #1f2a44;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --danger: #f87171;
+  --danger-hover: #ef4444;
+  --chip-bg: #111827;
+  --chip-text: #e5e7eb;
+  background-color: var(--bg); /* A dark background for the whole page */
 }
 
 .app.dark .todo-container {
-  background: #1e1e1e; /* A slightly lighter box for our app */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  background: var(--card-bg); /* A slightly lighter box for our app */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* Make text white in dark mode */
 .app.dark h1,
 .app.dark .todo-list li span {
-  color: #e0e0e0;
+  color: var(--text);
 }
 
 /* Style the input box for dark mode */
 .app.dark .input-container input {
-  background-color: #2c2c2c;
-  border-color: #444;
-  color: #e0e0e0;
+  background-color: var(--card-bg);
+  border-color: var(--border);
+  color: var(--text);
 }
 
 /* Style the buttons for dark mode */
 .app.dark .input-container button {
-  background-color: #0d6efd; /* A nice blue for dark mode */
+  background-color: var(--primary); /* A nice blue for dark mode */
 }
 .app.dark .input-container button:hover {
-  background-color: #0b5ed7;
+  background-color: var(--primary-hover);
 }
 
 .app.dark .todo-list li button {
-  background: #bb2d3b; /* A nice red for dark mode */
+  background: var(--danger); /* A nice red for dark mode */
 }
 .app.dark .todo-list li button:hover {
-  background: #b02a37;
+  background: var(--danger-hover);
 }
 
 /* Style the list items for dark mode */
 .app.dark .todo-list li {
-  background: #2c2c2c;
-  border-bottom: 1px solid #444;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
 }
 
 .app.dark .todo-list li.completed span {
@@ -159,22 +436,33 @@ h1 {
 
 /* Style our new theme switcher button */
 .theme-switcher {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: relative;
   background: none;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .app.dark .theme-switcher {
   border-color: #444;
   color: #e0e0e0;
+  background: rgba(255,255,255,0.02);
 }
+
+/* Dark variants for new controls */
+.app.dark .filter-btn { background: #1f2937; border-color: #374151; color: #e5e7eb; }
+.app.dark .filter-btn.active { background: #111827; border-color: #4b5563; color: #93c5fd; }
+.app.dark .priority-select,
+.app.dark .due-input,
+.app.dark .edit-input,
+.app.dark .sort-group select { background: #111827; color: #e5e7eb; border-color: #374151; }
+.app.dark .due-chip { background: #1f2937; color: #e5e7eb; }
+.app.dark .actions button { background: #1f2937; border-color: #374151; color: #e5e7eb; }
+.app.dark .actions button:hover { background: #111827; }
